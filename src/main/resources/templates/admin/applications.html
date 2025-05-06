@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Applications</title>
+    <style>
+        /* Same styles as index.html */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #2c3e50;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content {
+            flex-grow: 1;
+        }
+
+        .topbar {
+            background: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .content-area {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        form:last-child button {
+            background-color: #f44336;
+        }
+
+        form:last-child button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h2>Scholarship Admin</h2>
+        <ul>
+            <li><a href="/admin/dashboard">🏠 dashboard </a></li>
+            <li><a href="/admin/scholarships">🎓 Scholarships </a></li>
+            <li><a href="/admin/applications">📝 Applications </a></li>
+            <li><a href="/admin/messages">✉️ Messages </a></li>
+            <li><a href="/admin/logout">🚪 Logout </a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <input type="text" placeholder="Search...">
+            <div class="notifications">🔔</div>
+        </div>
+
+        <div class="content-area">
+            <h1>Student Scholarship Applications</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Income</th>
+                        <th>10th %</th>
+                        <th>12th %</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.name}">Name</td>
+                        <td th:text="${student.income}">Income</td>
+                        <td th:text="${student.tenthPercentage}">10th</td>
+                        <td th:text="${student.twelfthPercentage}">12th</td>
+                        <td th:text="${student.status}">Status</td>
+                        <td>
+                            <form th:action="@{'/admin/approve/' + ${student.id}}" method="post">
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form th:action="@{'/admin/reject/' + ${student.id}}" method="post">
+                                <button type="submit">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
